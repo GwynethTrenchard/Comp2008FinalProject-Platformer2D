@@ -15,10 +15,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;            // Reference to the Rigidbody2D component
     private bool isGrounded;           // True if player is standing on ground
 
+    private Animator animator;        // Reference to the Animator component (for future use)
     void Start()
     {
         // Grab the Rigidbody2D attached to the Player object once at the start.
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();   
     }
 
     void Update()
@@ -42,7 +44,37 @@ public class PlayerController : MonoBehaviour
             // Set vertical velocity to jumpForce (launch upward).
             // Horizontal velocity stays the same.
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            
         }
         
+        SetAnimation(moveInput); //Call animation function
     }
-}
+        
+        private void SetAnimation(float moveInput)
+        {
+            if(isGrounded)   //on the ground
+            {
+                if(moveInput == 0) //not moving
+                {
+                    animator.Play("Player_Idle");//Play idle animation
+                }
+                else //moving
+                {
+                    animator.Play("Player_Run");//Play run animation
+                }
+            }
+            else //in the air not on ground
+            {
+                if(rb.linearVelocityY > 0) //going upward
+                {
+                    animator.Play("Player_Jump");//Play jump animation
+                }
+                else //going down
+                {
+                    animator.Play("Player_Fall");//Play fall animation
+                }
+            }
+          
+        }
+    }
+
