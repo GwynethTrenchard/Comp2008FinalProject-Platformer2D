@@ -200,7 +200,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.12375219, g: 0.68426025, b: 0.7207546, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -405,7 +405,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3253d42f35260ab409e2ac50b09815cc, type: 3}
---- !u!1001 &1568264004
+--- !u!1001 &1861008878
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -413,29 +413,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2353994846608006334, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
-      propertyPath: extraJumpsValue
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4909881300216993901, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5321272683605662594, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321272683605662594, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5321272683605662594, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.78205
+      value: -1.025737
       objectReference: {fileID: 0}
     - target: {fileID: 5321272683605662594, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.74302
+      value: -1.3971764
       objectReference: {fileID: 0}
     - target: {fileID: 5321272683605662594, guid: 580d71e88cb56ae42b459fddb55a4b25, type: 3}
       propertyPath: m_LocalPosition.z
@@ -480,5 +468,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 1568264004}
   - {fileID: 790471164}
+  - {fileID: 1861008878}
