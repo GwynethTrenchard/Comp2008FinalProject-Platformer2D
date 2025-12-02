@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 4f;       // How fast the player moves left/right
     
     //Jump realated variables for the Jump Feature (later)
-    public float jumpForce = 8f;      // How strong the jump is (vertical speed)
+    public float jumpForce = 4f;      // How strong the jump is (vertical speed)
     public Transform groundCheck;      // Empty child object placed at the player's feet
     public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
     public LayerMask groundLayer;      // Which layer counts as "ground" (set in Inspector)

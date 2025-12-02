@@ -730,7 +730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5990036656178503800}
   - component: {fileID: 3846676081895543313}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Platform-Square 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

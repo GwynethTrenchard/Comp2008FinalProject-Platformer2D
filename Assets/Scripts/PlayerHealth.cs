@@ -1,20 +1,16 @@
 using UnityEngine;
-<<<<<<< HEAD
-
-using UnityEngine.SceneManagement;
-=======
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
->>>>>>> origin/feature-cinemachine-healthbar
+//using UnityEngine.SceneManagement;
+
 
 public class PlayerHealth : MonoBehaviour
 {
     // Starting health value for the Player
     public int health = 100;
-<<<<<<< HEAD
-=======
+
     public Image healthImage;//reference to health bar
->>>>>>> origin/feature-cinemachine-healthbar
+
 
     // Amount of damage the Player takes when hit
     public int damageAmount = 25;
@@ -26,20 +22,18 @@ public class PlayerHealth : MonoBehaviour
     {
         // Get the SpriteRenderer component attached to the Player
         spriteRenderer = GetComponent<SpriteRenderer>();
-<<<<<<< HEAD
-=======
+
         UpdateHealthBar(); //update health bar at start
->>>>>>> origin/feature-cinemachine-healthbar
+
     }
 
     // Method to reduce health when damage is taken
     public void TakeDamage()
     {
         health -= damageAmount; // subtract damage amount
-<<<<<<< HEAD
-=======
+
         UpdateHealthBar(); //update health bar  
->>>>>>> origin/feature-cinemachine-healthbar
+
         StartCoroutine(BlinkRed()); // briefly flash red
 
         // If health reaches zero or below, call Die()
@@ -48,9 +42,7 @@ public class PlayerHealth : MonoBehaviour
             Die();
         }
     }
-<<<<<<< HEAD
 
-=======
     // Update the health bar UI
     private void UpdateHealthBar()
     {
@@ -60,7 +52,7 @@ public class PlayerHealth : MonoBehaviour
         }
     }
     
->>>>>>> origin/feature-cinemachine-healthbar
+
     // Coroutine to flash the Player red for 0.1 seconds
     private System.Collections.IEnumerator BlinkRed()
     {
