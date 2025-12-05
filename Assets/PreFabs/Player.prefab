@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7833871797462111483}
   - component: {fileID: 1249713049334355515}
   - component: {fileID: 8709560808280971588}
-  - component: {fileID: 2353994846608006334}
   - component: {fileID: 9049841506857431877}
   - component: {fileID: 5229859302079940156}
   m_Layer: 0
@@ -185,29 +184,12 @@ MonoBehaviour:
   coins: 0
   moveSpeed: 4
   jumpForce: 8
+  extraJumpsValue: 1
   groundCheck: {fileID: 2456092713166427930}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
---- !u!114 &2353994846608006334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4909881300216993901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62258960a9045eb4cb8e530e7d67a7dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoubleJump
-  extraJumpsValue: 1
-  groundCheck: {fileID: 2456092713166427930}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  jumpForce: 5
 --- !u!95 &9049841506857431877
 Animator:
   serializedVersion: 7

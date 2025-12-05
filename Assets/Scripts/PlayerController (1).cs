@@ -3,25 +3,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int coins;
-    // Public variables appear in the Inspector, so you can tweak them without editing code.
-    public float moveSpeed = 4f;       // How fast the player moves left/right
-    
-    //Jump realated variables for the Jump Feature (later)
-    public float jumpForce = 4f;      // How strong the jump is (vertical speed)
-    public Transform groundCheck;      // Empty child object placed at the player's feet
+
+    // --- Movement & Animation ---
+    private Animator animator;             // Reference to Animator for controlling animations
+    public float moveSpeed = 4f;           // How fast the player moves left/right
+
+    // --- Jump variables ---
+    public float jumpForce = 8f;           // Base jump force (vertical speed)
+    public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
+    private int extraJumps;                // Counter for jumps left
+
+    public Transform groundCheck;          // Empty child object placed at the player's feet
     public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
-    public LayerMask groundLayer;      // Which layer counts as "ground" (set in Inspector)
+    public LayerMask groundLayer;          // Which layer counts as "ground" (set in Inspector)
 
-    // Private variables are used internally by the script.
-    private Rigidbody2D rb;            // Reference to the Rigidbody2D component
-    private bool isGrounded;           // True if player is standing on ground
+    // --- Internal state ---
+    private Rigidbody2D rb;                // Reference to the Rigidbody2D component
+    private bool isGrounded;               // True if player is standing on ground
 
-    private Animator animator;        // Reference to the Animator component (for future use)
     void Start()
     {
-        // Grab the Rigidbody2D attached to the Player object once at the start.
+        // Grab references once at the start
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();   
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -29,53 +33,150 @@ public class PlayerController : MonoBehaviour
         // --- Horizontal movement ---
         // Get input from keyboard (A/D or Left/Right arrows).
         float moveInput = Input.GetAxis("Horizontal");
+
         // Apply horizontal speed while keeping the current vertical velocity.
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
-        // Jump realated code for the Jump Feature (later)
         // --- Ground check ---
         // Create an invisible circle at the GroundCheck position.
         // If this circle overlaps any collider on the "Ground" layer, player is grounded.
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
-        // --- Jump ---
-        // If player is grounded AND the Jump button (Spacebar by default) is pressed:
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        // Reset extra jumps when grounded
+        if (isGrounded)
         {
-            // Set vertical velocity to jumpForce (launch upward).
-            // Horizontal velocity stays the same.
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            
+            extraJumps = extraJumpsValue;
         }
-        
-        SetAnimation(moveInput); //Call animation function
-    }
-        
-        private void SetAnimation(float moveInput)
+
+        // --- Jump & Double Jump ---
+        // If Space is pressed:
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if(isGrounded)   //on the ground
+            if (isGrounded)
             {
-                if(moveInput == 0) //not moving
-                {
-                    animator.Play("Player_Idle");//Play idle animation
-                }
-                else //moving
-                {
-                    animator.Play("Player_Run");//Play run animation
-                }
+                // Normal jump
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             }
-            else //in the air not on ground
+            else if (extraJumps > 0)
             {
-                if(rb.linearVelocityY > 0) //going upward
-                {
-                    animator.Play("Player_Jump");//Play jump animation
-                }
-                else //going down
-                {
-                    animator.Play("Player_Fall");//Play fall animation
-                }
+                // Extra jump (double or triple depending on extraJumpsValue)
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                extraJumps--; // Reduce available extra jumps
             }
-          
+        }
+
+        // --- Animations ---
+        SetAnimation(moveInput);
+    }
+
+    private void SetAnimation(float moveInput)
+    {
+        // Handle animations based on grounded state and movement
+        if (isGrounded)
+        {
+            if (moveInput == 0)
+            {
+                animator.Play("Player_Idle"); // Idle animation when not moving
+            }
+            else
+            {
+                animator.Play("Player_Run");  // Run animation when moving
+            }
+        }
+        else
+        {
+            if (rb.linearVelocityY > 0)
+            {
+                animator.Play("Player_Jump"); // Jump animation when moving upward
+            }
+            else
+            {
+                animator.Play("Player_Fall"); // Fall animation when moving downward
+            }
         }
     }
+}
+
+
+
+//using UnityEngine;
+
+//public class PlayerController : MonoBehaviour
+//{
+//    public int coins;
+//    // Public variables appear in the Inspector, so you can tweak them without editing code.
+//    public float moveSpeed = 4f;       // How fast the player moves left/right
+
+//    //Jump realated variables for the Jump Feature (later)
+//    public float jumpForce = 4f;      // How strong the jump is (vertical speed)
+//    public Transform groundCheck;      // Empty child object placed at the player's feet
+//    public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
+//    public LayerMask groundLayer;      // Which layer counts as "ground" (set in Inspector)
+
+//    // Private variables are used internally by the script.
+//    private Rigidbody2D rb;            // Reference to the Rigidbody2D component
+//    private bool isGrounded;           // True if player is standing on ground
+
+//    private Animator animator;        // Reference to the Animator component (for future use)
+//    void Start()
+//    {
+//        // Grab the Rigidbody2D attached to the Player object once at the start.
+//        rb = GetComponent<Rigidbody2D>();
+//        animator = GetComponent<Animator>();   
+//    }
+
+//    void Update()
+//    {
+//        // --- Horizontal movement ---
+//        // Get input from keyboard (A/D or Left/Right arrows).
+//        float moveInput = Input.GetAxis("Horizontal");
+//        // Apply horizontal speed while keeping the current vertical velocity.
+//        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+
+//        // Jump realated code for the Jump Feature (later)
+//        // --- Ground check ---
+//        // Create an invisible circle at the GroundCheck position.
+//        // If this circle overlaps any collider on the "Ground" layer, player is grounded.
+//        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+//        // --- Jump ---
+//        // If player is grounded AND the Jump button (Spacebar by default) is pressed:
+//        if (isGrounded && Input.GetButtonDown("Jump"))
+//        {
+//            // Set vertical velocity to jumpForce (launch upward).
+//            // Horizontal velocity stays the same.
+//            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+
+//        }
+
+//        SetAnimation(moveInput); //Call animation function
+//    }
+
+//        private void SetAnimation(float moveInput)
+//        {
+//            if(isGrounded)   //on the ground
+//            {
+//                if(moveInput == 0) //not moving
+//                {
+//                    animator.Play("Player_Idle");//Play idle animation
+//                }
+//                else //moving
+//                {
+//                    animator.Play("Player_Run");//Play run animation
+//                }
+//            }
+//            else //in the air not on ground
+//            {
+//                if(rb.linearVelocityY > 0) //going upward
+//                {
+//                    animator.Play("Player_Jump");//Play jump animation
+//                }
+//                else //going down
+//                {
+//                    animator.Play("Player_Fall");//Play fall animation
+//                }
+//            }
+
+//        }
+//    }
 
