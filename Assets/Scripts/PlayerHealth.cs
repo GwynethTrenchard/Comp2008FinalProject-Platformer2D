@@ -34,6 +34,8 @@ public class PlayerHealth : MonoBehaviour
 
         UpdateHealthBar(); //update health bar  
 
+        SoundManager.Instance.PlaySFX("HURT");
+
         StartCoroutine(BlinkRed()); // briefly flash red
 
         // If health reaches zero or below, call Die()

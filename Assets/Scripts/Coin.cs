@@ -8,6 +8,8 @@ public class Coin : MonoBehaviour
         {
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
             player.coins += 1;
+            // play coin sound effect when coin is collected at 40% volume
+            SoundManager.Instance.PlaySFX("COIN", 0.4f);
             Destroy(gameObject);
         }
     }
