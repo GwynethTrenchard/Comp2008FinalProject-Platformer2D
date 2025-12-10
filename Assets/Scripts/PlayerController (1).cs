@@ -108,6 +108,12 @@ public class PlayerController : MonoBehaviour
             //Play Squash sound effect
             SoundManager.Instance.PlaySFX("SQUASH");
         }
+
+        if(collision.gameObject.tag == "StrawBerry")
+        {
+            extraJumps = 2;
+            Destroy(collision.gameObject);
+        }
     }
 }
 
