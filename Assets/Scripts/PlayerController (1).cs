@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,15 +8,22 @@ public class PlayerController : MonoBehaviour
     // --- Movement & Animation ---
     private Animator animator;             // Reference to Animator for controlling animations
     public float moveSpeed = 4f;           // How fast the player moves left/right
+    public Image healthImage;              // Reference to UI Image for health bar
 
     // --- Jump variables ---
-    public float jumpForce = 8f;           // Base jump force (vertical speed)
+    public float jumpForce = 8.5f;          // Base jump force (vertical speed)
+    public float jumpContinuousForce = 1.0f;   // Force applied when holding jump (for variable jump height)
     public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
     private int extraJumps;                // Counter for jumps left
 
 
+
     public float coyoteTime = 0.2f;     // Grace period after leaving ground to still allow jump
     public float coyoteTimeCounter;          // Time after leaving ground that jump is still allowed
+
+    //public float coyoteTime = 0.2f;          // Time after leaving ground when jump is still allowed
+    //private float coyoteTimeCounter;         // Counter for coyote time
+
 
     //public float coyoteTime = 0.2f;          // Time after leaving ground when jump is still allowed
     //private float coyoteTimeCounter;         // Counter for coyote time
@@ -62,7 +70,9 @@ public class PlayerController : MonoBehaviour
         else
         {
 
+
             coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter
+
 
             coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter when not grounded
         }
@@ -82,7 +92,11 @@ public class PlayerController : MonoBehaviour
         if (jumpBufferCounter > 0f)
         {
 
+
             if (coyoteTimeCounter > 0f)
+
+            if (coyoteTimeCounter > 0f )
+
 
             if (coyoteTimeCounter > 0f )
 
@@ -105,8 +119,35 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+      if(Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
+
+        {
+            // Variable jump height: cut jump short if Space is released early
+            if(rb.linearVelocity.y > 0)
+            {
+                
+                rb.AddForce(new Vector2(0, jumpContinuousForce)) ;
+
+
+            }
+        }
         // --- Animations ---
         SetAnimation(moveInput);
+
+       // healthImage.fillAmount = health / 100f; // Update health bar UI
+
+        if(rb.linearVelocityY < 0)
+        {
+            rb.gravityScale= 3f;
+
+        }
+        else
+        {
+            rb.gravityScale= 2f;
+        }   
     }
 
     private void SetAnimation(float moveInput)
