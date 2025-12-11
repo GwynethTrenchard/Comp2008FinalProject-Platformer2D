@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,11 +8,16 @@ public class PlayerController : MonoBehaviour
     // --- Movement & Animation ---
     private Animator animator;             // Reference to Animator for controlling animations
     public float moveSpeed = 4f;           // How fast the player moves left/right
+    public Image healthImage;              // Reference to UI Image for health bar
 
     // --- Jump variables ---
-    public float jumpForce = 8f;           // Base jump force (vertical speed)
+    public float jumpForce = 8.5f;          // Base jump force (vertical speed)
+    public float jumpContinuousForce = 1.0f;   // Force applied when holding jump (for variable jump height)
     public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
     private int extraJumps;                // Counter for jumps left
+
+    public float coyoteTime = 0.2f;          // Time after leaving ground when jump is still allowed
+    private float coyoteTimeCounter;         // Counter for coyote time
 
     public Transform groundCheck;          // Empty child object placed at the player's feet
     public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
@@ -19,9 +25,10 @@ public class PlayerController : MonoBehaviour
 
     // --- Internal state ---
     private Rigidbody2D rb;                // Reference to the Rigidbody2D component
-    private bool isGrounded;              // True if player is standing on ground
+    private bool isGrounded;               // True if player is standing on ground
 
-    
+    public float jumpBufferTime = 0.15f;        // Time before landing when jump input is buffered
+    private float jumpBufferCounter;          // Counter for jump buffer
 
     void Start()
     {
@@ -47,31 +54,75 @@ public class PlayerController : MonoBehaviour
         // Reset extra jumps when grounded
         if (isGrounded)
         {
+            coyoteTimeCounter = coyoteTime; // Reset coyote time counter
             extraJumps = extraJumpsValue;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter when not grounded
+        }
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            jumpBufferCounter = jumpBufferTime; // Reset jump buffer counter when jump is pressed
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime; // Decrease jump buffer counter
         }
 
         // --- Jump & Double Jump ---
         // If Space is pressed:
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (jumpBufferCounter > 0f)
         {
-            if (isGrounded)
+            if (coyoteTimeCounter > 0f )
             {
                 // Normal jump
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 SoundManager.Instance.PlaySFX("JUMP");
+                coyoteTimeCounter = 0f; // Prevent double jump from coyote time
+                jumpBufferCounter = 0f; // Reset jump buffer counter
             }
+
             else if (extraJumps > 0)
             {
                 // Extra jump (double or triple depending on extraJumpsValue)
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 extraJumps--; // Reduce available extra jumps
-
                 SoundManager.Instance.PlaySFX("JUMP");
+                jumpBufferCounter = 0f; // Reset jump buffer counter
             }
         }
 
+      if(Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
+
+        {
+            // Variable jump height: cut jump short if Space is released early
+            if(rb.linearVelocity.y > 0)
+            {
+                
+                rb.AddForce(new Vector2(0, jumpContinuousForce)) ;
+
+
+            }
+        }
         // --- Animations ---
         SetAnimation(moveInput);
+
+       // healthImage.fillAmount = health / 100f; // Update health bar UI
+
+        if(rb.linearVelocityY < 0)
+        {
+            rb.gravityScale= 3f;
+
+        }
+        else
+        {
+            rb.gravityScale= 2f;
+        }   
     }
 
     private void SetAnimation(float moveInput)
