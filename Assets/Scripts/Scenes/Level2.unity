@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 86893666}
   - component: {fileID: 86893665}
   - component: {fileID: 86893664}
+  - component: {fileID: 86893668}
   m_Layer: 5
   m_Name: NextLevelButton
   m_TagString: Untagged
@@ -313,13 +314,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86893662}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 569eabbc3e36fd34799d5e890c73026f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NextLevel
-  nextLevelName: Level3
-  nextLevelValue: 3
+  nextLevelName: MainScene
+  nextLevelValue: 1
 --- !u!114 &86893665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,6 +415,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 86893662}
   m_CullTransparentMesh: 1
+--- !u!114 &86893668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 86893662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcae722a3a86254ca6a9365d9d572e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RestartGame
 --- !u!1 &100179651
 GameObject:
   m_ObjectHideFlags: 0
