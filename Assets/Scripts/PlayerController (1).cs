@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 4f;           // How fast the player moves left/right
 
     // --- Jump variables ---
-    public float jumpForce = 8f;           // Base jump force (vertical speed)
+    public float jumpForce = 8.5f;          // Base jump force (vertical speed)
+    public float jumpContinuousForce = 1.0f;   // Force applied when holding jump (for variable jump height)
     public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
     private int extraJumps;                // Counter for jumps left
 
@@ -91,6 +92,21 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+      if(Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity.y > 0)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * 0.5f);
+        }
+
+        {
+            // Variable jump height: cut jump short if Space is released early
+            if(rb.linearVelocity.y > 0)
+            {
+                
+                rb.AddForce(new Vector2(0, jumpContinuousForce)) ;
+
+
+            }
+        }
         // --- Animations ---
         SetAnimation(moveInput);
     }
