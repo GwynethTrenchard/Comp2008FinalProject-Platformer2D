@@ -13,16 +13,15 @@ public class PlayerController : MonoBehaviour
     public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
     private int extraJumps;                // Counter for jumps left
 
-    public float coyoteTime = 0.2f;     // Grace period after leaving ground to still allow jump
-    public float coyoteTimeCounter;          // Time after leaving ground that jump is still allowed
-
     public Transform groundCheck;          // Empty child object placed at the player's feet
     public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
     public LayerMask groundLayer;          // Which layer counts as "ground" (set in Inspector)
 
     // --- Internal state ---
     private Rigidbody2D rb;                // Reference to the Rigidbody2D component
-    private bool isGrounded;               // True if player is standing on ground
+    private bool isGrounded;              // True if player is standing on ground
+
+    
 
     void Start()
     {
@@ -48,24 +47,18 @@ public class PlayerController : MonoBehaviour
         // Reset extra jumps when grounded
         if (isGrounded)
         {
-            coyoteTimeCounter = coyoteTime; // Reset coyote time counter
             extraJumps = extraJumpsValue;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter
         }
 
         // --- Jump & Double Jump ---
         // If Space is pressed:
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (coyoteTimeCounter > 0f  )
+            if (isGrounded)
             {
                 // Normal jump
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 SoundManager.Instance.PlaySFX("JUMP");
-                coyoteTimeCounter = 0f; // Prevent double jump from coyote time
             }
             else if (extraJumps > 0)
             {
