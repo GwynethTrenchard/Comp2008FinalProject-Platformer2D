@@ -13,13 +13,13 @@ public class PlayerController : MonoBehaviour
     public int extraJumpsValue = 1;        // How many extra jumps allowed (1 = double jump, 2 = triple jump)
     private int extraJumps;                // Counter for jumps left
 
-<<<<<<< HEAD
+
     public float coyoteTime = 0.2f;     // Grace period after leaving ground to still allow jump
     public float coyoteTimeCounter;          // Time after leaving ground that jump is still allowed
-=======
-    public float coyoteTime = 0.2f;          // Time after leaving ground when jump is still allowed
-    private float coyoteTimeCounter;         // Counter for coyote time
->>>>>>> origin/feature-jump-buffering
+
+    //public float coyoteTime = 0.2f;          // Time after leaving ground when jump is still allowed
+    //private float coyoteTimeCounter;         // Counter for coyote time
+
 
     public Transform groundCheck;          // Empty child object placed at the player's feet
     public float groundCheckRadius = 0.2f; // Size of the circle used to detect ground
@@ -61,9 +61,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-<<<<<<< HEAD
+
             coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter
-=======
+
             coyoteTimeCounter -= Time.deltaTime; // Decrease coyote time counter when not grounded
         }
         
@@ -74,27 +74,25 @@ public class PlayerController : MonoBehaviour
         else
         {
             jumpBufferCounter -= Time.deltaTime; // Decrease jump buffer counter
->>>>>>> origin/feature-jump-buffering
+
         }
 
         // --- Jump & Double Jump ---
         // If Space is pressed:
         if (jumpBufferCounter > 0f)
         {
-<<<<<<< HEAD
-            if (coyoteTimeCounter > 0f  )
-=======
+
+            if (coyoteTimeCounter > 0f)
+
             if (coyoteTimeCounter > 0f )
->>>>>>> origin/feature-jump-buffering
+
             {
                 // Normal jump
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
                 SoundManager.Instance.PlaySFX("JUMP");
                 coyoteTimeCounter = 0f; // Prevent double jump from coyote time
-<<<<<<< HEAD
-=======
+
                 jumpBufferCounter = 0f; // Reset jump buffer counter
->>>>>>> origin/feature-jump-buffering
             }
 
             else if (extraJumps > 0)
@@ -148,7 +146,7 @@ public class PlayerController : MonoBehaviour
             SoundManager.Instance.PlaySFX("SQUASH");
         }
 
-        if(collision.gameObject.tag == "StrawBerry")
+        if (collision.gameObject.tag == "StrawBerry")
         {
             extraJumps = 2;
             Destroy(collision.gameObject);
